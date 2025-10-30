@@ -1,0 +1,41 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# IDE/editor
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Models and large binaries
+*.jit
+*.pt
+*.pth
+*.onnx
+ego_blur_face/
+
+# Local media assets (keep repo lean)
+demo_assets/local_*
+demo_assets/*.mp4
+demo_assets/*.MP4
+demo_assets/*.mov
+demo_assets/*.avi
+demo_assets/*.mkv
+
+# Outputs and logs
+outputs/
+results/
+*_output.*
+*.log
+
+# Virtual environments (if created in repo)
+.env/
+.venv/
+env/
+venv/
