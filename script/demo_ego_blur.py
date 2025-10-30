@@ -263,12 +263,16 @@ def get_detections(
 
     boxes, _, scores, _ = detections  # returns boxes, labels, scores, dims
 
-    nms_keep_idx = torchvision.ops.nms(boxes, scores, nms_iou_threshold)
-    boxes = boxes[nms_keep_idx]
-    scores = scores[nms_keep_idx]
+    # Run NMS on CPU to avoid requiring a CUDA-enabled torchvision build on Windows
+    # (This is a small performance trade-off and improves portability.)
+    boxes_cpu = boxes.detach().cpu()
+    scores_cpu = scores.detach().cpu()
+    nms_keep_idx = torchvision.ops.nms(boxes_cpu, scores_cpu, nms_iou_threshold)
+    boxes_cpu = boxes_cpu[nms_keep_idx]
+    scores_cpu = scores_cpu[nms_keep_idx]
 
-    boxes = boxes.cpu().numpy()
-    scores = scores.cpu().numpy()
+    boxes = boxes_cpu.numpy()
+    scores = scores_cpu.numpy()
 
     score_keep_idx = np.where(scores > model_score_threshold)[0]
     boxes = boxes[score_keep_idx]
